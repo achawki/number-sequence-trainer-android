@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zahlenreihen Trainer</string>
+    <string name="settings">Einstellungen</string>
+    <string name="button_statistics">Statistiken</string>
+    <string name="difficulty">Schwierigkeitsgrad</string>
+    <string name="difficulty_1">Leicht</string>
+    <string name="difficulty_2">Mittel</string>
+    <string name="difficulty_3">Schwer</string>
+    <string name="surrender">Aufgeben</string>
+    <string name="surrender_confirmation">Ja, aufgeben</string>
+    <string name="play_button">Start</string>
+    <string name="close">Schließen</string>
+    <string name="about_button">Über diese App</string>
+    <string name="licenses">Lizenzinformationen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="correct_answer">ist richtig!</string>
+    <string name="wrong_answer">ist falsch. Versuche es erneut!</string>
+    <string name="next_sequence">Nächste Zahlenreihe</string>
+    <string name="generic_error_message">Etwas is schief gelaufen!</string>
+    <string name="statistics">Statistiken</string>
+    <string name="about">Über dise App</string>
+    <string name="no_data_available">Keine Daten vorhanden</string>
+    <string name="answer">Antwort</string>
+    <string name="correct_solution">war die richtige Antwort</string>
+    <string name="success_rate">Erfolgsrate</string>
+    <string name="number_of_sequences">Anzahl der Zahlenreihen</string>
+    <string name="surrender_message">Bist du dir sicher, dass du aufgeben willst und es mit der nächsten Zahlenreihe probieren?</string>
+    <string name="failed_attempts">Durchschnittliche Fehlversuche per Zahlenreihe</string>
+    <string name="about_text">Die Zahlenreihen Trainer Android App is Open Source und auf Github verfügbar. Falls ein Problem auftritt oder du gerne ein neues Feature hättest, öffne bitte ein Ticket auf <a href="https://github.com/achawki/number-sequence-trainer-android/issues">https://github.com/achawki/number-sequence-trainer-android</a></string>
+</resources>
