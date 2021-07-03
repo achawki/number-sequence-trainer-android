@@ -1,7 +1,7 @@
 # Number Sequence Trainer
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/achawki/number-sequence-trainer-android/blob/master/LICENSE)
 
-The `Number Sequence Trainer` generates random number sequences.
+*Practise number sequences. The `Number Sequence Trainer` will generate sequences randomly*. 
 
 <img  src="./gifs/demo.gif" alt="demo" width="200"/>
 
