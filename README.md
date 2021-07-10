@@ -13,7 +13,7 @@ Soon to come
 
 - Support for dark mode
 - Different difficulties
-- User statictics
+- User statistics
 - Support for English and German
 - No internet access required (data is only stored locally)
 
