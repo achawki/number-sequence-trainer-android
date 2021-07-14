@@ -1,15 +1,13 @@
 # Number Sequence Trainer
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/achawki/number-sequence-trainer-android/blob/master/LICENSE)
 
-*Practise number sequences. The `Number Sequence Trainer` will generate sequences randomly*. 
+*Practise number sequences on Android. The `Number Sequence Trainer` will generate sequences randomly*. 
 
-<img  src="./gifs/demo.gif" alt="demo" width="200"/>
-
-## Play Store
-
-Soon to come
+<a href='https://play.google.com/store/apps/details?id=com.achawki.sequencetrainer&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="70"/></a>
 
 ## Features
+
+<img  src="./gifs/demo.gif" alt="demo" width="200"/>
 
 - Support for dark mode
 - Different difficulties
