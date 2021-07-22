@@ -12,7 +12,7 @@
         android:theme="@style/Theme.NumberSequenceTrainer.Main">
         <activity
             android:name=".activity.SequenceTrainerActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:theme="@style/Theme.NumberSequenceTrainer.Extended">
         </activity>
         <activity
