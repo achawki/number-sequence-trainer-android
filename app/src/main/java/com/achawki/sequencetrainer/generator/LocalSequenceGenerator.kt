@@ -156,7 +156,6 @@ internal object SequenceConstraint {
                 minusOperator,
                 timesOperator,
                 squareOperator,
-                WeightedOperator(UnaryOperator.NEXT_PRIME, 2),
                 WeightedOperator(ListOperator.SUM, 2)
             )
             Difficulty.HARD -> listOf<WeightedOperator<*>>(

@@ -27,11 +27,6 @@ class OperatorTest {
     }
 
     @Test
-    fun apply_nextPrime() {
-        assertEquals(7, UnaryOperator.NEXT_PRIME.apply(5))
-    }
-
-    @Test
     fun apply_square() {
         assertEquals(25, UnaryOperator.SQUARE.apply(5))
     }

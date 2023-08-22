@@ -31,11 +31,6 @@ enum class BinaryOperator : Operator<Pair<Int, Int>> {
 }
 
 enum class UnaryOperator : Operator<Int> {
-    NEXT_PRIME {
-        override fun apply(t: Int): Int {
-            return nextPrime(t)
-        }
-    },
     SQUARE {
         override fun apply(t: Int): Int {
             return t * t
