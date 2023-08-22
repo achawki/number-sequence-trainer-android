@@ -1,13 +1,18 @@
 package com.achawki.sequencetrainer.generator
 
 import com.achawki.sequencetrainer.common.Difficulty
-import com.achawki.sequencetrainer.math.*
+import com.achawki.sequencetrainer.math.BinaryOperator
+import com.achawki.sequencetrainer.math.ListOperator
+import com.achawki.sequencetrainer.math.Operator
+import com.achawki.sequencetrainer.math.UnaryOperator
+import com.achawki.sequencetrainer.math.WeightedOperator
+import com.achawki.sequencetrainer.math.getRandomOperatorsFromWeightedOperators
 import kotlin.random.Random
 
 class LocalSequenceGenerator : SequenceGenerator {
 
     override fun generateSequence(difficulty: Difficulty): Result<List<Int>> {
-        for (run in 1..10) {
+        for (run in 1..25) {
             val sequenceNumbers = mutableListOf<Int>()
             SequenceConstraint.generateSequenceConfig(difficulty).onSuccess { config: SequenceConfig ->
                 sequenceNumbers.add(config.startingNumber)
@@ -52,9 +57,11 @@ private fun applyOperatorIteration(
             is BinaryOperator -> {
                 result = operator.apply(Pair(currentLastNumber, factor))
             }
+
             is UnaryOperator -> {
                 result = operator.apply(currentLastNumber)
             }
+
             is ListOperator -> {
                 result = operator.apply(sequence)
             }
@@ -82,7 +89,7 @@ internal object SequenceConstraint {
     fun verifyForPlausibility(sequence: List<Int>): Boolean {
         if (sequence.isEmpty()) return false
         // validate any since square might be > int max
-        if (sequence.any { it > 500 || it < -500 }) return false
+        if (sequence.any { it > 750 || it < -750 }) return false
         // filter out too many occurrences of a single digit and too many 0
         if (sequence.groupBy { it }
                 .filterValues { it.size >= GeneratorConstants.SEQUENCE_LENGTH - 1 || (it.size >= 3 && it[0] == 0) }
@@ -94,7 +101,7 @@ internal object SequenceConstraint {
         sequence.forEach {
             if (last == it) {
                 val count = consecutiveCount[it]!! + 1
-                if (count == GeneratorConstants.SEQUENCE_LENGTH - 2) {
+                if (count == 3) {
                     return false
                 }
                 consecutiveCount[it] = count
@@ -109,17 +116,17 @@ internal object SequenceConstraint {
 
     private fun getMaxStartingNumber(difficulty: Difficulty): Int {
         return when (difficulty) {
-            Difficulty.EASY -> 5
-            Difficulty.MEDIUM -> 7
-            Difficulty.HARD -> 15
+            Difficulty.EASY -> 20
+            Difficulty.MEDIUM -> 35
+            Difficulty.HARD -> 50
         }
     }
 
     private fun getMaxSequenceFactor(difficulty: Difficulty): Int {
         return when (difficulty) {
-            Difficulty.EASY -> 4
-            Difficulty.MEDIUM -> 6
-            Difficulty.HARD -> 7
+            Difficulty.EASY -> 7
+            Difficulty.MEDIUM -> 9
+            Difficulty.HARD -> 15
         }
     }
 
@@ -127,15 +134,15 @@ internal object SequenceConstraint {
         return when (difficulty) {
             Difficulty.EASY -> 0.0
             Difficulty.MEDIUM -> 0.20
-            Difficulty.HARD -> 0.5
+            Difficulty.HARD -> 0.4
         }
     }
 
     private fun getProbabilityOfAlternatingOperators(difficulty: Difficulty): Double {
         return when (difficulty) {
             Difficulty.EASY -> 0.0
-            Difficulty.MEDIUM -> 0.25
-            Difficulty.HARD -> 0.4
+            Difficulty.MEDIUM -> 0.2
+            Difficulty.HARD -> 0.3
         }
     }
 
@@ -151,6 +158,7 @@ internal object SequenceConstraint {
                 timesOperator,
                 squareOperator
             )
+
             Difficulty.MEDIUM -> listOf<WeightedOperator<*>>(
                 plusOperator,
                 minusOperator,
@@ -158,12 +166,12 @@ internal object SequenceConstraint {
                 squareOperator,
                 WeightedOperator(ListOperator.SUM, 2)
             )
+
             Difficulty.HARD -> listOf<WeightedOperator<*>>(
                 WeightedOperator(BinaryOperator.PLUS, 8),
                 WeightedOperator(BinaryOperator.MINUS, 8),
                 WeightedOperator(BinaryOperator.TIMES, 8),
                 WeightedOperator(UnaryOperator.SQUARE, 3),
-                WeightedOperator(UnaryOperator.NEXT_PRIME, 3),
                 WeightedOperator(BinaryOperator.REMAINDER, 3),
                 WeightedOperator(ListOperator.SUM, 3),
                 WeightedOperator(UnaryOperator.DIGIT_SUM, 3)

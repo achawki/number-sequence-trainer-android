@@ -25,27 +25,27 @@ class LocalSequenceGeneratorTest {
 
     @Test
     fun verifyForPlausibility() {
-        assertTrue(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5)))
+        assertTrue(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 6)))
     }
 
     @Test
     fun verifyForPlausibility_tooLargeNumbers() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 501)))
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, -501)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 751)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, -751)))
     }
 
     @Test
     fun verifyForPlausibility_tooManyOccurrences() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 3, 2, 2)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 3, 2, 2, 2)))
     }
 
     @Test
     fun verifyForPlausibility_tooManyZeros() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 0, 0, 0)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 0, 0, 0, 0)))
     }
 
     @Test
     fun verifyForPlausibility_tooManyConsecutiveOccurrences() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 2, 3, 3)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(2, 2, 2, 3, 3, 3)))
     }
 }
