@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         aboutButton.setOnClickListener {
             val aboutTextView = TextView(this)
             val message = SpannableString(getString(R.string.about_text))
-            Linkify.addLinks(message, Linkify.ALL)
+            Linkify.addLinks(message, Linkify.WEB_URLS)
             aboutTextView.text = message
             aboutTextView.setPadding(10)
             aboutTextView.movementMethod = LinkMovementMethod.getInstance()

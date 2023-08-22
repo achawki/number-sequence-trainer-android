@@ -9,14 +9,12 @@ plugins {
 final VERSION_NAME = "1.1.0"
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
-
     defaultConfig {
+        compileSdk 33
         resValue "string", "version_name", VERSION_NAME
         applicationId "com.achawki.sequencetrainer"
-        minSdkVersion 16
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 3
         versionName VERSION_NAME
 
@@ -39,13 +37,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
         freeCompilerArgs += ['-Xallow-result-return-type']
     }
+    namespace 'com.achawki.sequencetrainer'
 }
 
 dependencies {
