@@ -72,7 +72,7 @@ private fun applyOperatorIteration(
 
 internal object SequenceConstraint {
     fun generateSequenceConfig(difficulty: Difficulty): Result<SequenceConfig> {
-        for (i in 1..20) {
+        for (i in 1..50) {
             val startingNumber = Random.nextInt(1, getMaxStartingNumber(difficulty) + 1)
             val factor = Random.nextInt(2, getMaxSequenceFactor(difficulty) + 1)
             val numberOfOperators: Int =
@@ -89,7 +89,7 @@ internal object SequenceConstraint {
     fun verifyForPlausibility(sequence: List<Int>): Boolean {
         if (sequence.isEmpty()) return false
         // validate any since square might be > int max
-        if (sequence.any { it > 750 || it < -750 }) return false
+        if (sequence.any { it > 900 || it < -900 }) return false
         // filter out too many occurrences of a single digit and too many 0
         if (sequence.groupBy { it }
                 .filterValues { it.size >= GeneratorConstants.SEQUENCE_LENGTH - 1 || (it.size >= 3 && it[0] == 0) }
@@ -133,15 +133,15 @@ internal object SequenceConstraint {
     private fun getProbabilityOfTwoOperators(difficulty: Difficulty): Double {
         return when (difficulty) {
             Difficulty.EASY -> 0.0
-            Difficulty.MEDIUM -> 0.20
-            Difficulty.HARD -> 0.4
+            Difficulty.MEDIUM -> 0.15
+            Difficulty.HARD -> 0.3
         }
     }
 
     private fun getProbabilityOfAlternatingOperators(difficulty: Difficulty): Double {
         return when (difficulty) {
             Difficulty.EASY -> 0.0
-            Difficulty.MEDIUM -> 0.2
+            Difficulty.MEDIUM -> 0.15
             Difficulty.HARD -> 0.3
         }
     }
@@ -171,16 +171,21 @@ internal object SequenceConstraint {
                 WeightedOperator(BinaryOperator.PLUS, 8),
                 WeightedOperator(BinaryOperator.MINUS, 8),
                 WeightedOperator(BinaryOperator.TIMES, 8),
-                WeightedOperator(UnaryOperator.SQUARE, 3),
-                WeightedOperator(BinaryOperator.REMAINDER, 3),
-                WeightedOperator(ListOperator.SUM, 3),
-                WeightedOperator(UnaryOperator.DIGIT_SUM, 3)
+                WeightedOperator(UnaryOperator.SQUARE, 4),
+                WeightedOperator(BinaryOperator.REMAINDER, 4),
+                WeightedOperator(ListOperator.SUM, 4),
+                WeightedOperator(UnaryOperator.DIGIT_SUM, 4)
             )
         }
     }
 
     private fun verifyAdditionalConstraints(sequenceConfig: SequenceConfig, difficulty: Difficulty): Boolean {
-        if (difficulty == Difficulty.HARD && sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == BinaryOperator.PLUS || it == BinaryOperator.MINUS || it == BinaryOperator.TIMES || it == UnaryOperator.SQUARE }) {
+        if (difficulty == Difficulty.HARD && sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == BinaryOperator.PLUS || it == BinaryOperator.MINUS || it == UnaryOperator.SQUARE}) {
+            return false
+        }
+
+        // prevent too often occurrences of single sum or times operator (>40%)
+        if ((difficulty == Difficulty.HARD || difficulty == Difficulty.MEDIUM)&& sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == ListOperator.SUM || it == BinaryOperator.TIMES}) {
             return false
         }
 

@@ -30,8 +30,8 @@ class LocalSequenceGeneratorTest {
 
     @Test
     fun verifyForPlausibility_tooLargeNumbers() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 751)))
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, -751)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 901)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, -901)))
     }
 
     @Test
