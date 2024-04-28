@@ -12,8 +12,9 @@ class LocalSequenceGeneratorTest {
     fun generateSequence() {
         val result = generator.generateSequence(Difficulty.EASY)
         assertTrue(result.isSuccess)
-        result.onSuccess {
-            assertEquals(GeneratorConstants.SEQUENCE_LENGTH, it.size)
+        result.onSuccess { generatorResult ->
+            assertEquals(GeneratorConstants.SEQUENCE_LENGTH, generatorResult.sequence.size)
+            assertEquals(GeneratorConstants.SEQUENCE_LENGTH - 1, generatorResult.solutionPath.size)
         }
     }
 
@@ -30,8 +31,8 @@ class LocalSequenceGeneratorTest {
 
     @Test
     fun verifyForPlausibility_tooLargeNumbers() {
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 751)))
-        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, -751)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, 951)))
+        assertFalse(SequenceConstraint.verifyForPlausibility(listOf(1, 2, 3, 4, 5, -951)))
     }
 
     @Test

@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.achawki.sequencetrainer.R
 import com.achawki.sequencetrainer.common.Difficulty
 import com.achawki.sequencetrainer.di.GeneratorModule
+import com.achawki.sequencetrainer.generator.GeneratorResult
 import com.achawki.sequencetrainer.generator.SequenceGenerator
 import dagger.Module
 import dagger.Provides
@@ -41,6 +42,8 @@ class SequenceTrainerActivityTest {
     @Module
     @InstallIn(SingletonComponent::class)
     object GeneratorTestModule {
+
+        private var identifier = 0
         @Singleton
         @Provides
         fun provideGenerator(): SequenceGenerator {
@@ -48,8 +51,15 @@ class SequenceTrainerActivityTest {
         }
 
         class SequenceTestGenerator : SequenceGenerator {
-            override fun generateSequence(difficulty: Difficulty): Result<List<Int>> {
-                return Result.success(listOf(1, 5, 9, 13, 17))
+            override fun generateSequence(difficulty: Difficulty): Result<GeneratorResult> {
+                return Result.success(
+                    GeneratorResult(
+                        listOf(1, 5, 9, 13, 17),
+                        listOf("1 + 4", "5 + 4", "9 + 4", "13 + 4"),
+                        // identifier needs to be unique
+                        identifier++.toString()
+                    )
+                )
             }
         }
     }
@@ -87,6 +97,7 @@ class SequenceTrainerActivityTest {
         onView(withText(R.string.surrender_confirmation)).check(matches(isDisplayed()))
         onView(withText(R.string.surrender_confirmation)).perform(click())
         onView(withText("17 ".plus(context.getString(R.string.correct_solution)))).check(matches(isDisplayed()))
+        onView(withId(R.id.txtView_solution_path)).check(matches(withText("1\n1 + 4 = 5\n5 + 4 = 9\n9 + 4 = 13\n13 + 4 = 17\n")))
     }
 
     companion object {

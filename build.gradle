@@ -1,20 +1,21 @@
 buildscript {
     ext{
-        kotlin_version = '1.8.22'
-        hilt_version = '2.47'
-        room_version = '2.5.2'
-        corektx_version = "1.10.1"
+        kotlin_version = '1.9.20'
+        hilt_version = '2.48.1'
+        room_version = '2.6.1'
+        corektx_version = "1.12.0"
         appcompat_version = "1.6.1"
-        material_version = "1.9.0"
+        material_version = "1.11.0"
         constraintlayout_version = "2.1.4"
-        navigation_version = "2.6.0"
+        navigation_version = "2.7.7"
         osslicense_version = '17.0.1'
         junit_version = '4.13.2'
         junitext_version = '1.1.5'
         androidtest_version = '1.5.0'
         espresso_version = '3.5.1'
         ossplugin_version = "0.10.4"
-        gradle_version = '8.1.0'
+        gradle_version = '8.3.0'
+        gson_version = '2.10.1'
     }
 
     repositories {
@@ -37,5 +38,5 @@ allprojects {
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

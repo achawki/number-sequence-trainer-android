@@ -19,4 +19,7 @@ interface SequenceDao {
 
     @Query("select difficulty, ROUND(100.0 * (select count(*) from sequence se where se.status='SOLVED' and se.difficulty = s.difficulty)/count(*),2) AS successRate,count(*) as numberOfSequences,ROUND(CAST(sum(s.failed_attempts) AS float)/count(*),2) as failedAttemptsPerSequence from sequence s where s.status != 'ONGOING' group by s.difficulty")
     suspend fun getStatistics(): List<Statistic>
+
+    @Query("SELECT * from sequence WHERE identifier = :identifier")
+    suspend fun getSequenceByIdentifier(identifier: String): Sequence?
 }

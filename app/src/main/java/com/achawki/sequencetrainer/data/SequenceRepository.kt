@@ -12,6 +12,6 @@ class SequenceRepository @Inject constructor(
     suspend fun updateSequence(updatedSequence: Sequence) = sequenceDao.update(updatedSequence)
     suspend fun getActiveSequence(difficulty: Int): Sequence? =
         sequenceDao.getActive(difficulty, SequenceStatus.ONGOING.name)
-
     suspend fun getStatistics(): List<Statistic> = sequenceDao.getStatistics()
+    suspend fun getSequenceByIdentifier(identifier: String): Sequence? = sequenceDao.getSequenceByIdentifier(identifier)
 }

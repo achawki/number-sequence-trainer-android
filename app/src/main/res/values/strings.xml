@@ -27,5 +27,5 @@
     <string name="success_rate">Success Rate</string>
     <string name="number_of_sequences">Number of sequences</string>
     <string name="failed_attempts">Average failed attempts per sequence</string>
-    <string name="about_text">The number sequence trainer android app is open source and available on github. In case you experience an issue or would like to request a feature please open an issue on <a href="https://github.com/achawki/number-sequence-trainer-android/issues">https://github.com/achawki/number-sequence-trainer-android</a></string>
+    <string name="about_text">The number sequence trainer android app is open source and available on github. In case you experience an issue or would like to request a feature please open an issue on <a href="https://github.com/achawki/number-sequence-trainer-android/issues">https://github.com/achawki/number-sequence-trainer-android</a>.\n\nMore information about the privacy policy: <a href="https://github.com/achawki/number-sequence-trainer-android/blob/main/playstore/Privacy_policy.md">https://github.com/achawki/number-sequence-trainer-android/blob/main/playstore/Privacy_policy.md</a></string>
 </resources>

@@ -11,13 +11,28 @@ class OperatorTest {
     }
 
     @Test
+    fun print_plus(){
+        assertEquals("2 + 3", BinaryOperator.PLUS.print(Pair(2, 3)))
+    }
+
+    @Test
     fun apply_minus() {
         assertEquals(3, BinaryOperator.MINUS.apply(Pair(5, 2)))
     }
 
     @Test
+    fun print_minus(){
+        assertEquals("2 - 3", BinaryOperator.MINUS.print(Pair(2, 3)))
+    }
+
+    @Test
     fun apply_times() {
         assertEquals(10, BinaryOperator.TIMES.apply(Pair(5, 2)))
+    }
+
+    @Test
+    fun print_times(){
+        assertEquals("2 * 3", BinaryOperator.TIMES.print(Pair(2, 3)))
     }
 
     @Test
@@ -27,8 +42,18 @@ class OperatorTest {
     }
 
     @Test
+    fun print_remainder(){
+        assertEquals("5 % 2", BinaryOperator.REMAINDER.print(Pair(5, 2)))
+    }
+
+    @Test
     fun apply_square() {
         assertEquals(25, UnaryOperator.SQUARE.apply(5))
+    }
+
+    @Test
+    fun print_square(){
+        assertEquals("2^2", UnaryOperator.SQUARE.print(2))
     }
 
     @Test
@@ -41,10 +66,23 @@ class OperatorTest {
     }
 
     @Test
+    fun print_digitSum(){
+        assertEquals("5", UnaryOperator.DIGIT_SUM.print(5))
+        assertEquals("1 + 5 + 5", UnaryOperator.DIGIT_SUM.print(155))
+        assertEquals("-(1 + 5 + 5)", UnaryOperator.DIGIT_SUM.print(-155))
+    }
+
+    @Test
     fun apply_sum() {
         assertEquals(2, ListOperator.SUM.apply(listOf(2)))
         assertEquals(15, ListOperator.SUM.apply(listOf(2, 10, 3)))
         assertEquals(13, ListOperator.SUM.apply(listOf(-2, 10, 5)))
+    }
+
+    @Test
+    fun print_sum(){
+        assertEquals("-2 - 10 + 5", ListOperator.SUM.print(listOf(-2, -10, 5)))
+        assertEquals("2 + 10 + 5", ListOperator.SUM.print(listOf(2, 10, 5)))
     }
 
     @Test
