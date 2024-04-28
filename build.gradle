@@ -15,6 +15,7 @@ buildscript {
         espresso_version = '3.5.1'
         ossplugin_version = "0.10.4"
         gradle_version = '8.3.0'
+        gson_version = '2.10.1'
     }
 
     repositories {
