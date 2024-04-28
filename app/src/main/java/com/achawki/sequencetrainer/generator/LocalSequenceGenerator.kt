@@ -11,9 +11,10 @@ import kotlin.random.Random
 
 class LocalSequenceGenerator : SequenceGenerator {
 
-    override fun generateSequence(difficulty: Difficulty): Result<List<Int>> {
+    override fun generateSequence(difficulty: Difficulty): Result<GeneratorResult> {
         for (run in 1..25) {
             val sequenceNumbers = mutableListOf<Int>()
+            val solutionPaths = mutableListOf<String>()
             SequenceConstraint.generateSequenceConfig(difficulty).onSuccess { config: SequenceConfig ->
                 sequenceNumbers.add(config.startingNumber)
                 for (i in 1 until GeneratorConstants.SEQUENCE_LENGTH) {
@@ -24,18 +25,18 @@ class LocalSequenceGenerator : SequenceGenerator {
                     } else {
                         config.operators
                     }
-                    sequenceNumbers.add(
-                        applyOperatorIteration(
-                            operatorsOfIteration,
-                            sequenceNumbers[i - 1],
-                            config.factor,
-                            sequenceNumbers
-                        )
+                    val (result, solutionPath) = applyOperatorIteration(
+                        operatorsOfIteration,
+                        sequenceNumbers[i - 1],
+                        config.factor,
+                        sequenceNumbers
                     )
+                    sequenceNumbers.add(result)
+                    solutionPaths.add(solutionPath)
 
                 }
                 if (SequenceConstraint.verifyForPlausibility(sequenceNumbers)) {
-                    return Result.success(sequenceNumbers)
+                    return Result.success(GeneratorResult(sequenceNumbers, solutionPaths))
                 }
             }
         }
@@ -49,25 +50,31 @@ private fun applyOperatorIteration(
     lastNumber: Int,
     factor: Int,
     sequence: List<Int>
-): Int {
+): Pair<Int, String> {
     var result = 0
+    var solutionPath = ""
     operators.forEachIndexed { i, operator ->
         val currentLastNumber: Int = if (i == 0) lastNumber else result
+        if (i > 0) solutionPath = "$solutionPath ${GeneratorConstants.SOLUTION_PATH_DELIMITER} "
         when (operator) {
             is BinaryOperator -> {
                 result = operator.apply(Pair(currentLastNumber, factor))
+                solutionPath += operator.print(Pair(currentLastNumber, factor))
             }
 
             is UnaryOperator -> {
                 result = operator.apply(currentLastNumber)
+                solutionPath += operator.print(currentLastNumber)
             }
 
             is ListOperator -> {
                 result = operator.apply(sequence)
+                solutionPath += operator.print(sequence)
             }
         }
     }
-    return result
+
+    return Pair(result, solutionPath)
 }
 
 internal object SequenceConstraint {
@@ -89,7 +96,7 @@ internal object SequenceConstraint {
     fun verifyForPlausibility(sequence: List<Int>): Boolean {
         if (sequence.isEmpty()) return false
         // validate any since square might be > int max
-        if (sequence.any { it > 900 || it < -900 }) return false
+        if (sequence.any { it > 950 || it < -950 }) return false
         // filter out too many occurrences of a single digit and too many 0
         if (sequence.groupBy { it }
                 .filterValues { it.size >= GeneratorConstants.SEQUENCE_LENGTH - 1 || (it.size >= 3 && it[0] == 0) }
@@ -180,12 +187,12 @@ internal object SequenceConstraint {
     }
 
     private fun verifyAdditionalConstraints(sequenceConfig: SequenceConfig, difficulty: Difficulty): Boolean {
-        if (difficulty == Difficulty.HARD && sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == BinaryOperator.PLUS || it == BinaryOperator.MINUS || it == UnaryOperator.SQUARE}) {
+        if (difficulty == Difficulty.HARD && sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == BinaryOperator.PLUS || it == BinaryOperator.MINUS || it == UnaryOperator.SQUARE }) {
             return false
         }
 
         // prevent too often occurrences of single sum or times operator (>40%)
-        if ((difficulty == Difficulty.HARD || difficulty == Difficulty.MEDIUM)&& sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == ListOperator.SUM || it == BinaryOperator.TIMES}) {
+        if ((difficulty == Difficulty.HARD || difficulty == Difficulty.MEDIUM) && sequenceConfig.operators.size == 1 && sequenceConfig.operators.any { it == ListOperator.SUM || it == BinaryOperator.TIMES }) {
             return false
         }
 
