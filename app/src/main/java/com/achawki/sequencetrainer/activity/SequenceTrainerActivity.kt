@@ -51,6 +51,10 @@ class SequenceTrainerActivity : AppCompatActivity() {
             findViewById(R.id.txtView_sequence),
             TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
         )
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(
+            findViewById(R.id.txtView_solution_path),
+            TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
+        )
 
         val sharedPref = getSharedPreferences(SettingsKey.PREFERENCES, Context.MODE_PRIVATE)
         difficulty = sharedPref.getInt(SettingsKey.DIFFICULTY, Difficulty.EASY.label)
@@ -86,7 +90,9 @@ class SequenceTrainerActivity : AppCompatActivity() {
         }
 
 
-        inputText.requestFocus()
+        inputText.post{
+            inputText.requestFocus()
+        }
 
         val inputLayout = findViewById<TextInputLayout>(R.id.edittxtlayout_solution)
         inputLayout.setEndIconOnClickListener {
@@ -108,6 +114,7 @@ class SequenceTrainerActivity : AppCompatActivity() {
                     surrendered = true
                     currentSequence.status = SequenceStatus.GIVEN_UP
                     sequenceViewModel.updateSequence(currentSequence)
+                    findViewById<TextView>(R.id.txtView_solution_path).text = currentSequence.formatSolutionPaths()
                     Snackbar.make(
                         it,
                         "${currentSequence.solution} ".plus(getString(R.string.correct_solution)),
@@ -151,19 +158,40 @@ class SequenceTrainerActivity : AppCompatActivity() {
     }
 
     private fun initializeRound() {
-        generator.generateSequence(Difficulty.fromLabel(difficulty)).onSuccess { sequenceList ->
-            currentSequence = toSequence(sequenceList, difficulty)
-            findViewById<TextView>(R.id.txtView_sequence).text = currentSequence.question
-            findViewById<EditText>(R.id.edittxt_solution).text.clear()
-            surrendered = false
-            sequenceViewModel.insertSequence(currentSequence)
-            populateRound()
-        }.onFailure {
-            Snackbar.make(
-                findViewById<TextView>(R.id.txtView_sequence),
-                getString(R.string.generic_error_message),
-                Snackbar.LENGTH_INDEFINITE
-            ).setBackgroundTint(Color.RED).show()
+        lifecycleScope.launch {
+            tryPopulateRound()
         }
+    }
+
+    private suspend fun tryPopulateRound(retryCount: Int = 0, maxRetries: Int = 25) {
+        if (retryCount >= maxRetries) {
+            printGenericError()
+            return
+        }
+
+        generator.generateSequence(Difficulty.fromLabel(difficulty)).onSuccess { generatorResult ->
+            val sequenceIdentifier = generatorResult.retrieveIdentifier()
+            if (sequenceViewModel.getSequenceByIdentifier(sequenceIdentifier) != null) {
+                tryPopulateRound(retryCount + 1, maxRetries)
+            } else {
+                currentSequence = toSequence(generatorResult, difficulty)
+                findViewById<TextView>(R.id.txtView_sequence).text = currentSequence.question
+                findViewById<EditText>(R.id.edittxt_solution).text.clear()
+                findViewById<TextView>(R.id.txtView_solution_path).text = ""
+                surrendered = false
+                sequenceViewModel.insertSequence(currentSequence)
+                populateRound()
+            }
+        }.onFailure {
+            printGenericError()
+        }
+    }
+
+    private fun printGenericError() {
+        Snackbar.make(
+            findViewById<TextView>(R.id.txtView_sequence),
+            getString(R.string.generic_error_message),
+            Snackbar.LENGTH_INDEFINITE
+        ).setBackgroundTint(Color.RED).show()
     }
 }
