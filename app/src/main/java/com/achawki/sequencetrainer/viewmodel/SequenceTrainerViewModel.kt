@@ -32,4 +32,8 @@ class SequenceTrainerViewModel @Inject constructor(private val sequenceRepositor
     suspend fun getStatistics(): List<Statistic> {
         return sequenceRepository.getStatistics()
     }
+
+    suspend fun getSequenceByIdentifier(identifier: String): Sequence? {
+        return sequenceRepository.getSequenceByIdentifier(identifier)
+    }
 }
