@@ -1,10 +1,12 @@
 package com.achawki.sequencetrainer.math
 
+import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
 
 interface Operator<T> {
     fun apply(t: T): Int
+    fun print(t: T): String
 }
 
 enum class BinaryOperator : Operator<Pair<Int, Int>> {
@@ -12,20 +14,33 @@ enum class BinaryOperator : Operator<Pair<Int, Int>> {
         override fun apply(t: Pair<Int, Int>): Int {
             return t.first + t.second
         }
+
+        override fun print(t: Pair<Int, Int>): String {
+            return "${t.first} + ${t.second}"
+        }
     },
     MINUS {
         override fun apply(t: Pair<Int, Int>): Int {
             return t.first - t.second
+        }
+        override fun print(t: Pair<Int, Int>): String {
+            return "${t.first} - ${t.second}"
         }
     },
     TIMES {
         override fun apply(t: Pair<Int, Int>): Int {
             return t.first * t.second
         }
+            override fun print(t: Pair<Int, Int>): String {
+                return "${t.first} * ${t.second}"
+            }
     },
     REMAINDER {
         override fun apply(t: Pair<Int, Int>): Int {
             return t.first % t.second
+        }
+        override fun print(t: Pair<Int, Int>): String {
+            return "${t.first} % ${t.second}"
         }
     }
 }
@@ -34,6 +49,9 @@ enum class UnaryOperator : Operator<Int> {
     SQUARE {
         override fun apply(t: Int): Int {
             return t * t
+        }
+        override fun print(t: Int): String {
+            return "${t}^2"
         }
     },
     DIGIT_SUM {
@@ -48,6 +66,14 @@ enum class UnaryOperator : Operator<Int> {
             }
             return digitSum * sign
         }
+        override fun print(t: Int): String {
+            val result = abs(t).toString().map { it.toString() }.joinToString(separator = " + ")
+            return if (t < 0) {
+                "-($result)"
+            } else {
+                result
+            }
+        }
     }
 }
 
@@ -55,6 +81,15 @@ enum class ListOperator : Operator<List<Int>> {
     SUM {
         override fun apply(t: List<Int>): Int {
             return t.sum()
+        }
+        override fun print(t: List<Int>): String {
+            return t.mapIndexed { i, number ->
+                when {
+                    i == 0 -> "$number"
+                    number < 0 -> "- ${number * -1}"
+                    else -> "+ $number"
+                }
+            }.joinToString(" ")
         }
     }
 }
