@@ -1,5 +1,6 @@
 package com.achawki.sequencetrainer.activity
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -36,6 +37,7 @@ class SequenceTrainerActivity : AppCompatActivity() {
     private lateinit var currentSequence: Sequence
     private var surrendered: Boolean = false
     private var difficulty: Int = 1
+    private var dialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +74,13 @@ class SequenceTrainerActivity : AppCompatActivity() {
         setupSurrenderButton()
     }
 
+    override fun onDestroy() {
+        if (dialog?.isShowing == true) {
+            dialog?.dismiss()
+        }
+        super.onDestroy()
+    }
+
     private fun setupInputText() {
         val inputText = findViewById<EditText>(R.id.edittxt_solution)
 
@@ -85,12 +94,13 @@ class SequenceTrainerActivity : AppCompatActivity() {
                     )
                     true
                 }
+
                 else -> false
             }
         }
 
 
-        inputText.post{
+        inputText.post {
             inputText.requestFocus()
         }
 
@@ -106,27 +116,29 @@ class SequenceTrainerActivity : AppCompatActivity() {
     private fun setupSurrenderButton() {
         val surrenderButton = findViewById<Button>(R.id.btn_surrender)
         surrenderButton.setOnClickListener {
-            if (surrendered) return@setOnClickListener
-            MaterialAlertDialogBuilder(this).setTitle(getString(R.string.surrender))
-                .setMessage(getString(R.string.surrender_message))
-                .setNeutralButton(getString(R.string.cancel)) { _, _ ->
-                }.setPositiveButton(getString(R.string.surrender_confirmation)) { _, _ ->
-                    surrendered = true
-                    currentSequence.status = SequenceStatus.GIVEN_UP
-                    sequenceViewModel.updateSequence(currentSequence)
-                    findViewById<TextView>(R.id.txtView_solution_path).text = currentSequence.formatSolutionPaths()
-                    Snackbar.make(
-                        it,
-                        "${currentSequence.solution} ".plus(getString(R.string.correct_solution)),
-                        Snackbar.LENGTH_INDEFINITE
-                    ).apply {
-                        setAction(R.string.next_sequence) {
-                            initializeRound()
-                        }
-                        setBackgroundTint(Color.LTGRAY)
-                        anchorView = it
+            if (!isFinishing) {
+                if (surrendered) return@setOnClickListener
+                dialog = MaterialAlertDialogBuilder(this).setTitle(getString(R.string.surrender))
+                    .setMessage(getString(R.string.surrender_message))
+                    .setNeutralButton(getString(R.string.cancel)) { _, _ ->
+                    }.setPositiveButton(getString(R.string.surrender_confirmation)) { _, _ ->
+                        surrendered = true
+                        currentSequence.status = SequenceStatus.GIVEN_UP
+                        sequenceViewModel.updateSequence(currentSequence)
+                        findViewById<TextView>(R.id.txtView_solution_path).text = currentSequence.formatSolutionPaths()
+                        Snackbar.make(
+                            it,
+                            "${currentSequence.solution} ".plus(getString(R.string.correct_solution)),
+                            Snackbar.LENGTH_INDEFINITE
+                        ).apply {
+                            setAction(R.string.next_sequence) {
+                                initializeRound()
+                            }
+                            setBackgroundTint(Color.LTGRAY)
+                            anchorView = it
+                        }.show()
                     }.show()
-                }.show()
+            }
         }
     }
 
