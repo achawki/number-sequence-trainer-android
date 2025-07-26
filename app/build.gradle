@@ -6,7 +6,7 @@ plugins {
     id "com.google.android.gms.oss-licenses-plugin"
 }
 
-final VERSION_NAME = "2.0.3"
+final VERSION_NAME = "2.1.3"
 
 android {
     defaultConfig {
@@ -15,7 +15,7 @@ android {
         applicationId "com.achawki.sequencetrainer"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 8
+        versionCode 9
         versionName VERSION_NAME
 
         testInstrumentationRunner "com.achawki.sequencetrainer.MainTestRunner"
