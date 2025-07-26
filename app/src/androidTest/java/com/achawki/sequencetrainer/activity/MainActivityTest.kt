@@ -42,6 +42,9 @@ class MainActivityTest {
     fun setup() {
         hiltRule.inject()
         Intents.init()
+        runBlocking {
+            database.clearAllTables()
+        }
     }
 
     @Test
@@ -141,5 +144,8 @@ class MainActivityTest {
     @After
     fun tearDown() {
         Intents.release()
+        runBlocking {
+            database.clearAllTables()
+        }
     }
 }
