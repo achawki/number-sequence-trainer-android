@@ -10,11 +10,11 @@ final VERSION_NAME = "2.0.3"
 
 android {
     defaultConfig {
-        compileSdk 34
+        compileSdk 36
         resValue "string", "version_name", VERSION_NAME
         applicationId "com.achawki.sequencetrainer"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 8
         versionName VERSION_NAME
 
