@@ -1,5 +1,7 @@
 # Number Sequence Trainer
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/achawki/number-sequence-trainer-android/blob/master/LICENSE)
+[![Unit Tests](https://github.com/achawki/number-sequence-trainer-android/workflows/Unit%20Tests/badge.svg)](https://github.com/achawki/number-sequence-trainer-android/actions/workflows/unit-tests.yml)
+[![Instrumentation Tests](https://github.com/achawki/number-sequence-trainer-android/workflows/Instrumentation%20Tests/badge.svg)](https://github.com/achawki/number-sequence-trainer-android/actions/workflows/instrumentation-tests.yml)
 
 *Practise number sequences on Android. The `Number Sequence Trainer` will generate sequences randomly*. 
 

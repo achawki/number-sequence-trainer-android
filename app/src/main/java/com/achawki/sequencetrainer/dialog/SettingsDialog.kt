@@ -23,13 +23,12 @@ private fun setupDifficultySetting(sharedPref: SharedPreferences, context: Conte
     difficultySlider.value = existingDifficulty.toFloat()
     if (!difficultySlider.hasLabelFormatter()) {
         difficultySlider.setLabelFormatter { value ->
-            context.getString(
-                context.resources.getIdentifier(
-                    "difficulty_${value.toInt()}",
-                    "string",
-                    context.packageName
-                )
-            )
+            when(value.toInt()) {
+                1 -> context.getString(R.string.difficulty_1)
+                2 -> context.getString(R.string.difficulty_2)
+                3 -> context.getString(R.string.difficulty_3)
+                else -> "${context.getString(R.string.difficulty)} ${value.toInt()}"
+            }
         }
     }
 

@@ -28,4 +28,7 @@
     <string name="surrender_message">Bist du dir sicher, dass du aufgeben willst und es mit der nächsten Zahlenreihe probieren?</string>
     <string name="failed_attempts">Durchschnittliche Fehlversuche per Zahlenreihe</string>
     <string name="about_text">Die Zahlenreihen Trainer Android App is Open Source und auf Github verfügbar. Falls ein Problem auftritt oder du gerne ein neues Feature hättest, öffne bitte ein Ticket auf <a href="https://github.com/achawki/number-sequence-trainer-android/issues">https://github.com/achawki/number-sequence-trainer-android</a>.\n\nWeitere Informationen zur Datenschutzrichtlinie: <a href="https://github.com/achawki/number-sequence-trainer-android/blob/main/playstore/Privacy_policy.md">https://github.com/achawki/number-sequence-trainer-android/blob/main/playstore/Privacy_policy.md</a></string>
+    <string name="reset_statistics">Statistiken zurücksetzen</string>
+    <string name="reset_statistics_confirmation">Bist du dir sicher, dass du wirklich alle Statistiken zurücksetzen willst? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="reset">Zurücksetzen</string>
 </resources>

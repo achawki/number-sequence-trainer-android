@@ -119,7 +119,7 @@ class SequenceDaoTest {
 
     @Test
     fun testStatistics() = runBlocking {
-        val statistics = sequenceDao.getStatistics()
+        val statistics = sequenceDao.getStatistics(SequenceStatus.SOLVED.name, SequenceStatus.ONGOING.name)
         assertEquals(2, statistics.size)
         val easyStatistics = statistics[0]
         val hardStatistics = statistics[1]
@@ -143,6 +143,21 @@ class SequenceDaoTest {
     fun testGetActive() = runBlocking {
         assertNotNull(sequenceDao.getActive(1, SequenceStatus.ONGOING.name))
         assertNull(sequenceDao.getActive(3, SequenceStatus.ONGOING.name))
+    }
+
+    @Test
+    fun testDeleteAllSequences() = runBlocking {
+        val statisticsBeforeDelete = sequenceDao.getStatistics(SequenceStatus.SOLVED.name, SequenceStatus.ONGOING.name)
+        assertEquals(2, statisticsBeforeDelete.size)
+
+        sequenceDao.deleteAllSequences()
+
+        val statisticsAfterDelete = sequenceDao.getStatistics(SequenceStatus.SOLVED.name, SequenceStatus.ONGOING.name)
+        assertEquals(0, statisticsAfterDelete.size)
+
+        assertNull(sequenceDao.getActive(1, SequenceStatus.ONGOING.name))
+        assertNull(sequenceDao.getSequenceByIdentifier("1"))
+        assertNull(sequenceDao.getSequenceByIdentifier("5"))
     }
 
     @After

@@ -1,7 +1,6 @@
 package com.achawki.sequencetrainer.activity
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -58,7 +57,7 @@ class SequenceTrainerActivity : AppCompatActivity() {
             TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM
         )
 
-        val sharedPref = getSharedPreferences(SettingsKey.PREFERENCES, Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences(SettingsKey.PREFERENCES, MODE_PRIVATE)
         difficulty = sharedPref.getInt(SettingsKey.DIFFICULTY, Difficulty.EASY.label)
 
         lifecycleScope.launch {
@@ -79,6 +78,11 @@ class SequenceTrainerActivity : AppCompatActivity() {
             dialog?.dismiss()
         }
         super.onDestroy()
+    }
+
+    override fun onPause() {
+        dialog?.dismiss()
+        super.onPause()
     }
 
     private fun setupInputText() {
@@ -175,7 +179,7 @@ class SequenceTrainerActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun tryPopulateRound(retryCount: Int = 0, maxRetries: Int = 25) {
+    private suspend fun tryPopulateRound(retryCount: Int = 0, maxRetries: Int = 35) {
         if (retryCount >= maxRetries) {
             printGenericError()
             return
@@ -200,6 +204,10 @@ class SequenceTrainerActivity : AppCompatActivity() {
     }
 
     private fun printGenericError() {
+        // Disable UI interactions to prevent crashes
+        findViewById<EditText>(R.id.edittxt_solution).isEnabled = false
+        findViewById<Button>(R.id.btn_surrender).isEnabled = false
+        
         Snackbar.make(
             findViewById<TextView>(R.id.txtView_sequence),
             getString(R.string.generic_error_message),
