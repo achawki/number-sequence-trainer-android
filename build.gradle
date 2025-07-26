@@ -1,21 +1,21 @@
 buildscript {
     ext{
-        kotlin_version = '1.9.20'
-        hilt_version = '2.48.1'
-        room_version = '2.6.1'
-        corektx_version = "1.12.0"
-        appcompat_version = "1.6.1"
-        material_version = "1.11.0"
-        constraintlayout_version = "2.1.4"
-        navigation_version = "2.7.7"
-        osslicense_version = '17.0.1'
+        kotlin_version = '2.2.0'
+        hilt_version = '2.57'
+        room_version = '2.7.2'
+        corektx_version = '1.16.0'
+        appcompat_version = '1.7.1'
+        material_version = '1.12.0'
+        constraintlayout_version = '2.2.1'
+        navigation_version = '2.9.2'
+        osslicense_version = '17.2.1'
         junit_version = '4.13.2'
-        junitext_version = '1.1.5'
-        androidtest_version = '1.5.0'
-        espresso_version = '3.5.1'
+        junitext_version = '1.2.1'
+        androidtest_version = '1.6.1'
+        espresso_version = '3.6.1'
         ossplugin_version = "0.10.4"
-        gradle_version = '8.3.0'
-        gson_version = '2.10.1'
+        gradle_version = '8.11.1'
+        gson_version = '2.13.1'
     }
 
     repositories {
