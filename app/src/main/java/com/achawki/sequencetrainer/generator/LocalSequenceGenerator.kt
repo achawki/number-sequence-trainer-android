@@ -12,7 +12,7 @@ import kotlin.random.Random
 class LocalSequenceGenerator : SequenceGenerator {
 
     override fun generateSequence(difficulty: Difficulty): Result<GeneratorResult> {
-        for (run in 1..25) {
+        for (run in 1..45) {
             val sequenceNumbers = mutableListOf<Int>()
             val solutionPaths = mutableListOf<String>()
             SequenceConstraint.generateSequenceConfig(difficulty).onSuccess { config: SequenceConfig ->

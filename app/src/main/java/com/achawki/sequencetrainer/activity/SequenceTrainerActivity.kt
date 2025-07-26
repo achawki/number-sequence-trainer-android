@@ -175,7 +175,7 @@ class SequenceTrainerActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun tryPopulateRound(retryCount: Int = 0, maxRetries: Int = 25) {
+    private suspend fun tryPopulateRound(retryCount: Int = 0, maxRetries: Int = 35) {
         if (retryCount >= maxRetries) {
             printGenericError()
             return
