@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         val statisticsButton = findViewById<Button>(R.id.btn_statistics)
-        statisticsButton.setOnClickListener {
+        statisticsButton.setOnClickListener { button ->
             lifecycleScope.launch {
-                renderStatisticsDialog(this@MainActivity, sequenceViewModel.getStatistics())
+                renderStatisticsDialog(this@MainActivity, sequenceViewModel.getStatistics(), sequenceViewModel, button)
             }
         }
 
