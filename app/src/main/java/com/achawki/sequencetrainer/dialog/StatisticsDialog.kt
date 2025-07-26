@@ -15,15 +15,13 @@ fun renderStatisticsDialog(context: Context, statistics: List<Statistic>, viewMo
 
     statistics.forEach { statistic ->
         sb.append("<b>")
-        sb.append(
-            context.getString(
-                context.resources.getIdentifier(
-                    "difficulty_${statistic.difficulty}",
-                    "string",
-                    context.packageName
-                )
-            )
-        )
+        val difficultyText = when(statistic.difficulty) {
+            1 -> context.getString(R.string.difficulty_1)
+            2 -> context.getString(R.string.difficulty_2)
+            3 -> context.getString(R.string.difficulty_3)
+            else -> "${context.getString(R.string.difficulty)} ${statistic.difficulty}"
+        }
+        sb.append(difficultyText)
         sb.append("</b><br>")
         sb.append(
             "\t" + context.getString(R.string.success_rate) + ": ${statistic.successRate}%<br>" +
